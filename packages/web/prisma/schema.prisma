@@ -1,0 +1,358 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Bounty {
+  id                   String             @id
+  title                String
+  description          String
+  createdById          String
+  status               BountyStatus       @default(ACTIVE)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime
+  deadline             DateTime?
+  requirements         String?
+  submissionGuidelines String?
+  tags                 String[]           @default([])
+  type                 BountyType         @default(OPEN)
+  User                 User               @relation(fields: [createdById], references: [id])
+  BountyComment        BountyComment[]
+  BountySubmission     BountySubmission[]
+  BountyVote           BountyVote[]
+  Project              Project?
+
+  @@index([createdById])
+  @@index([status])
+  @@index([type])
+}
+
+model BountyComment {
+  id                String              @id
+  bountyId          String
+  userId            String
+  content           String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  Bounty            Bounty              @relation(fields: [bountyId], references: [id], onDelete: Cascade)
+  User              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  BountyCommentVote BountyCommentVote[]
+
+  @@index([bountyId])
+  @@index([userId])
+}
+
+model BountyCommentVote {
+  id            String        @id
+  commentId     String
+  userId        String
+  isUpvote      Boolean
+  createdAt     DateTime      @default(now())
+  BountyComment BountyComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  User          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@index([commentId])
+  @@index([userId])
+}
+
+model BountySubmission {
+  id            String   @id
+  bountyId      String
+  userId        String
+  title         String
+  description   String
+  url           String?
+  repositoryUrl String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime
+  Bounty        Bounty   @relation(fields: [bountyId], references: [id], onDelete: Cascade)
+  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([bountyId])
+  @@index([userId])
+}
+
+model BountyVote {
+  id        String   @id
+  bountyId  String
+  userId    String
+  isUpvote  Boolean
+  createdAt DateTime @default(now())
+  Bounty    Bounty   @relation(fields: [bountyId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([bountyId, userId])
+  @@index([bountyId])
+  @@index([userId])
+}
+
+model Event {
+  id              String            @id
+  title           String
+  description     String
+  location        String?
+  isOnline        Boolean           @default(false)
+  onlineUrl       String?
+  startDate       DateTime
+  endDate         DateTime?
+  startTime       String
+  endTime         String?
+  createdById     String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  User            User              @relation(fields: [createdById], references: [id])
+  EventAttendance EventAttendance[]
+
+  @@index([createdById])
+  @@index([startDate])
+}
+
+model EventAttendance {
+  id        String   @id
+  eventId   String
+  userId    String
+  createdAt DateTime @default(now())
+  Event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@index([eventId])
+  @@index([userId])
+}
+
+model JobPosting {
+  id             String    @id
+  title          String
+  description    String
+  company        String
+  location       String?
+  remoteOk       Boolean   @default(false)
+  salary         String?
+  applicationUrl String?
+  source         JobSource @default(USER_POSTED)
+  userId         String
+  isActive       Boolean   @default(true)
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+  User           User      @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([isActive])
+  @@index([source])
+  @@index([userId])
+}
+
+model Profile {
+  id                String     @id
+  userId            String     @unique
+  fullName          String?
+  contactNumber     String?
+  city              String?
+  suburb            String?
+  bio               String?
+  avatarUrl         String?
+  githubUrl         String?
+  linkedinUrl       String?
+  websiteUrl        String?
+  workTypes         WorkType[]
+  availableForHire  Boolean    @default(false)
+  remoteOnly        Boolean    @default(false)
+  isPublic          Boolean    @default(true)
+  allowDailyProfile Boolean    @default(true)
+  featuredDate      DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime
+  User              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([availableForHire])
+  @@index([featuredDate])
+  @@index([isPublic])
+}
+
+model Project {
+  id                 String               @id
+  title              String
+  description        String
+  ownerId            String
+  status             ProjectStatus        @default(ACTIVE)
+  incompletionReason String?
+  visibility         ProjectVisibility    @default(PUBLIC)
+  bountyId           String?              @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  Bounty             Bounty?              @relation(fields: [bountyId], references: [id])
+  User               User                 @relation(fields: [ownerId], references: [id])
+  ProjectApplication ProjectApplication[]
+  ProjectLink        ProjectLink[]
+  ProjectMember      ProjectMember[]
+
+  @@index([ownerId])
+  @@index([status])
+  @@index([visibility])
+}
+
+model ProjectApplication {
+  id        String            @id
+  projectId String
+  userId    String
+  message   String?
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime
+  Project   Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  User      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([status])
+  @@index([userId])
+}
+
+model ProjectLink {
+  id        String   @id
+  projectId String
+  title     String
+  url       String
+  createdAt DateTime @default(now())
+  Project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model ProjectMember {
+  id        String   @id
+  projectId String
+  userId    String
+  joinedAt  DateTime @default(now())
+  Project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+}
+
+model Role {
+  id           String       @id
+  name         String       @unique
+  category     RoleCategory
+  displayOrder Int          @default(0)
+  createdAt    DateTime     @default(now())
+  mainCategory String
+  subCategory  String?
+  UserRole     UserRole[]
+
+  @@index([category])
+  @@index([mainCategory])
+  @@index([subCategory])
+}
+
+model User {
+  id                 String               @id
+  email              String               @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  authId             String               @unique
+  Bounty             Bounty[]
+  BountyComment      BountyComment[]
+  BountyCommentVote  BountyCommentVote[]
+  BountySubmission   BountySubmission[]
+  BountyVote         BountyVote[]
+  Event              Event[]
+  EventAttendance    EventAttendance[]
+  JobPosting         JobPosting[]
+  Profile            Profile?
+  Project            Project[]
+  ProjectApplication ProjectApplication[]
+  ProjectMember      ProjectMember[]
+  UserRole           UserRole[]
+
+  @@index([authId])
+  @@index([email])
+}
+
+model UserRole {
+  id        String   @id
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+  Role      Role     @relation(fields: [roleId], references: [id])
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@index([roleId])
+  @@index([userId])
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum BountyStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum BountyType {
+  OPEN
+  CHALLENGE
+  FEATURE_REQUEST
+  BUG_BOUNTY
+}
+
+enum JobSource {
+  USER_POSTED
+  ADMIN_SOURCED
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  INCOMPLETE
+}
+
+enum ProjectVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum RoleCategory {
+  NEWCOMER
+  DEVELOPMENT
+  DATA_AI
+  INFRASTRUCTURE
+  SECURITY
+  DESIGN_UX
+  QUALITY_TESTING
+  MANAGEMENT
+  BUSINESS
+  DOCUMENTATION
+  MARKETING_GROWTH
+  SEO_CONTENT
+  VIDEO_MEDIA
+  CUSTOMER_SERVICE
+  ADMIN_VIRTUAL
+  FINANCE_ACCOUNTING
+  EDUCATION_TRAINING
+  SPECIALIZED_SERVICES
+  ECOMMERCE
+  EMERGING_ROLES
+}
+
+enum WorkType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  NONE
+}

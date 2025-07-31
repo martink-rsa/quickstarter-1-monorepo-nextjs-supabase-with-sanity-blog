@@ -1,23 +1,42 @@
 {
-  "name": "quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog",
+  "name": "quickstarter-1-monorepo",
   "version": "1.0.0",
-  "description": "",
   "private": true,
-  "workspaces": [
-    "web"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Quickstarter 1 Monorepo. Next.js, Supabase, Prisma.",
+  "license": "MIT",
+  "author": "Martin Kruger",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog.git"
+    "url": "https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog/issues"
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "start": "pnpm --filter web start",
+    "lint": "pnpm --filter web lint",
+    "type-check": "pnpm --filter web type-check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm --filter web test",
+    "test:watch": "pnpm --filter web test:watch",
+    "test:ui": "pnpm --filter web test:ui",
+    "test:coverage": "pnpm --filter web test:coverage",
+    "studio:dev": "pnpm --filter studio dev",
+    "studio:build": "pnpm --filter studio build",
+    "studio:deploy": "pnpm --filter studio deploy",
+    "prepare": "husky"
   },
-  "homepage": "https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog#readme"
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/node": "^20.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2",
+    "typescript": "^5.0.0"
+  },
+  "lint-staged": {
+    "packages/web/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ]
+  }
 }
