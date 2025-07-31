@@ -12,15 +12,15 @@ export function TutorialStep({
       <Checkbox
         id={title}
         name={title}
-        className={`absolute top-[3px] mr-2 peer`}
+        className={`peer absolute top-[3px] mr-2`}
       />
       <label
         htmlFor={title}
-        className={`relative text-base text-foreground peer-checked:line-through font-medium`}
+        className={`text-foreground relative text-base font-medium peer-checked:line-through`}
       >
         <span className="ml-8">{title}</span>
         <div
-          className={`ml-8 text-sm peer-checked:line-through font-normal text-muted-foreground`}
+          className={`text-muted-foreground ml-8 text-sm font-normal peer-checked:line-through`}
         >
           {children}
         </div>

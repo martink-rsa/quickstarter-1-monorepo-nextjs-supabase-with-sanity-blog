@@ -1,23 +1,38 @@
 {
   "name": "quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Quickstarter 1: Web monorepo using Next.js, Supabase for auth and Sanity for the blog",
   "private": true,
   "workspaces": [
     "web"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run dev --workspace=web",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "template",
+    "monorepo",
+    "nextjs",
+    "supabase",
+    "sanity",
+    "blog"
+  ],
+  "author": "Martin Kruger",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog/issues"
   },
-  "homepage": "https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog#readme"
+  "homepage": "https://github.com/martink-rsa/quickstarter-1-monorepo-nextjs-supabase-with-sanity-blog#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2"
+  }
 }

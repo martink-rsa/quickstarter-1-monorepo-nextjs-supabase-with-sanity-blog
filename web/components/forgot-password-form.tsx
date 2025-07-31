@@ -1,7 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,8 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
 
 export function ForgotPasswordForm({
   className,
@@ -53,7 +54,7 @@ export function ForgotPasswordForm({
             <CardDescription>Password reset instructions sent</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               If you registered using your email and password, you will receive
               a password reset email.
             </p>

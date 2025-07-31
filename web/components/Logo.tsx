@@ -1,4 +1,4 @@
-export function NextLogo() {
+export function Logo() {
   return (
     <svg
       aria-label="Next.js logotype"

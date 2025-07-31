@@ -1,5 +1,5 @@
-import { TutorialStep } from "./tutorial-step";
 import { CodeBlock } from "./code-block";
+import { TutorialStep } from "./tutorial-step";
 
 const create = `create table notes (
   id bigserial primary key,
@@ -52,7 +52,7 @@ export function FetchDataSteps() {
           Head over to the{" "}
           <a
             href="https://supabase.com/dashboard/project/_/editor"
-            className="font-bold hover:underline text-foreground/80"
+            className="text-foreground/80 font-bold hover:underline"
             target="_blank"
             rel="noreferrer"
           >
@@ -63,7 +63,7 @@ export function FetchDataSteps() {
           following into the{" "}
           <a
             href="https://supabase.com/dashboard/project/_/sql/new"
-            className="font-bold hover:underline text-foreground/80"
+            className="text-foreground/80 font-bold hover:underline"
             target="_blank"
             rel="noreferrer"
           >
@@ -78,7 +78,7 @@ export function FetchDataSteps() {
         <p>
           To create a Supabase client and query data from an Async Server
           Component, create a new page.tsx file at{" "}
-          <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
+          <span className="bg-muted text-secondary-foreground relative rounded border px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium">
             /app/notes/page.tsx
           </span>{" "}
           and add the following.
@@ -93,7 +93,7 @@ export function FetchDataSteps() {
           Head over to the{" "}
           <a
             href="https://supabase.com/ui"
-            className="font-bold hover:underline text-foreground/80"
+            className="text-foreground/80 font-bold hover:underline"
           >
             Supabase UI library
           </a>{" "}
