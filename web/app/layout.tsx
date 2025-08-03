@@ -11,8 +11,7 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Quickstarter 1: Web monorepo using Next.js",
-  description:
-    "The fastest way to build apps with Next.js, Supabase and Sanity",
+  description: "Next.js Template with Supabase and Sanity",
 };
 
 const geistSans = Geist({

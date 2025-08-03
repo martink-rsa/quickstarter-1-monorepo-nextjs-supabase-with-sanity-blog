@@ -9,7 +9,7 @@ export function Hero() {
           <Logo />
         </a>
       </div>
-      <h1 className="sr-only">Supabase and Next.js Starter Template</h1>
+      <h1 className="sr-only">Quickstarter Template</h1>
       <p className="mx-auto max-w-xl text-center text-3xl !leading-tight lg:text-4xl">
         Learn IT, Web Development and Building with AI for free at{" "}
         <a

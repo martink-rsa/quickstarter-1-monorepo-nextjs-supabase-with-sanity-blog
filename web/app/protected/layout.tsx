@@ -1,7 +1,7 @@
 import Link from "next/link";
 
+import { AuthButton } from "@/components/AuthButton";
 import { DeployButton } from "@/components/DeployButton";
-import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export default function ProtectedLayout({

@@ -1,12 +1,10 @@
 import Link from "next/link";
 
+import { AuthButton } from "@/components/AuthButton";
 import { DeployButton } from "@/components/DeployButton";
-import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
+import { Hero } from "@/components/Hero";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
 import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/lib/utils";
 
 export default function Home() {
   return (
@@ -27,7 +25,7 @@ export default function Home() {
           <Hero />
           <main className="flex flex-1 flex-col gap-6 px-4">
             <h2 className="mb-4 text-xl font-medium">Next steps</h2>
-            {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
+            <SignUpUserSteps />
           </main>
         </div>
 
