@@ -42,20 +42,30 @@ export function BlogPostHeader({ post }: BlogPostHeaderProps) {
       {/* Author and Meta */}
       <div className="flex items-center justify-between border-b pb-8 mb-8">
         <div className="flex items-center gap-4">
-          {post.author.image && (
+          {post.author?.image ? (
             <img
               src={urlFor(post.author.image).width(64).height(64).url()}
               alt={post.author.name}
               className="w-16 h-16 rounded-full"
             />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <span className="text-lg font-medium text-primary">
+                {post.author?.name?.charAt(0).toUpperCase() || '?'}
+              </span>
+            </div>
           )}
           <div>
-            <Link
-              href={`/blog/author/${post.author.slug.current}`}
-              className="text-lg font-semibold hover:text-primary transition-colors"
-            >
-              {post.author.name}
-            </Link>
+            {post.author ? (
+              <Link
+                href={`/blog/author/${post.author.slug.current}`}
+                className="text-lg font-semibold hover:text-primary transition-colors"
+              >
+                {post.author.name}
+              </Link>
+            ) : (
+              <span className="text-lg font-semibold">Anonymous</span>
+            )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <time dateTime={post.publishedAt}>
                 {format(new Date(post.publishedAt), 'MMMM d, yyyy')}

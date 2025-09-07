@@ -1,3 +1,4 @@
+import { Layout } from '@/components/Layout';
 import { BlogPostContent } from '@/components/blog/BlogPostContent';
 import { BlogPostHeader } from '@/components/blog/BlogPostHeader';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
@@ -12,9 +13,9 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -28,7 +29,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const post = await client.fetch<BlogPost>(postQuery, { slug: params.slug });
+  const { slug } = await params;
+  const post = await client.fetch<BlogPost>(postQuery, { slug });
 
   if (!post) {
     return {
@@ -45,14 +47,14 @@ export async function generateMetadata({
     title: metaTitle,
     description: metaDescription,
     keywords: keywords?.join(', '),
-    authors: [{ name: post.author.name }],
+    ...(post.author && { authors: [{ name: post.author.name }] }),
     openGraph: {
       title: metaTitle,
       description: metaDescription,
       type: 'article',
       publishedTime: post.publishedAt,
       modifiedTime: post._updatedAt,
-      authors: [post.author.name],
+      ...(post.author && { authors: [post.author.name] }),
       tags: post.tags,
       ...(post.mainImage && {
         images: [
@@ -75,11 +77,12 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
   const [post, relatedPosts] = await Promise.all([
-    client.fetch<BlogPost>(postQuery, { slug: params.slug }),
+    client.fetch<BlogPost>(postQuery, { slug }),
     client.fetch<BlogPostPreview[]>(relatedPostsQuery, {
       postId: '',
-      slug: params.slug,
+      slug,
     }),
   ]);
 
@@ -96,16 +99,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   );
 
   return (
-    <article className="container mx-auto px-4 py-8 max-w-4xl">
-      <BlogPostHeader post={post} />
-      <BlogPostContent post={post} />
+    <Layout>
+      <article className="container mx-auto px-4 py-8 max-w-4xl">
+        <BlogPostHeader post={post} />
+        <BlogPostContent post={post} />
 
-      {actualRelatedPosts.length > 0 && (
-        <div className="mt-16 pt-16 border-t">
-          <RelatedPosts posts={actualRelatedPosts} />
-        </div>
-      )}
-    </article>
+        {actualRelatedPosts.length > 0 && (
+          <div className="mt-16 pt-16 border-t">
+            <RelatedPosts posts={actualRelatedPosts} />
+          </div>
+        )}
+      </article>
+    </Layout>
   );
 }
 
