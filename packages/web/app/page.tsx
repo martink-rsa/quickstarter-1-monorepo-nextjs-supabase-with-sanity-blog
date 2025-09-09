@@ -1,6 +1,6 @@
-import { BlogPostsSection } from '@/components/BlogPostsSection';
-import { Layout } from '@/components/Layout';
-import { Hero } from '@/components/hero';
+import { BlogPostsSection } from '@/components/BlogPostsSection/BlogPostsSection';
+import { Hero } from '@/components/Hero/Hero';
+import { Layout } from '@/components/Layout/Layout';
 
 export default function Home() {
   return (

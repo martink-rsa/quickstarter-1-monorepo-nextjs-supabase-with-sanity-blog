@@ -75,7 +75,7 @@ pnpm test:coverage         # Run tests with coverage
 ### ✅ Correct Usage:
 
 ```typescript
-import Component from '@/components/MyComponent';
+import { MyComponent } from '@/components/MyComponent/MyComponent';
 import { prisma } from '@/lib/prisma';
 import { createClient } from '@/lib/supabase/client';
 import { client, urlFor } from '@/lib/sanity';
@@ -88,6 +88,55 @@ import { createClient } from '../../../lib/supabase/client';
 import { prisma } from '../../lib/prisma';
 import { client } from '../../../lib/sanity/client';
 import Component from './components/MyComponent';
+```
+
+## Component Organization
+
+**CRITICAL CONVENTIONS:**
+
+- **ALWAYS** use folder-based component organization with named exports
+- **Component Structure**: Each component should have its own folder with the component file inside
+- **Naming**: Use PascalCase for both folder and file names
+- **Exports**: Always use named exports, never default exports
+
+### ✅ Correct Component Structure:
+
+```
+components/
+├── Button/
+│   ├── Button.tsx           # Named export: export const Button = () => {...}
+│   └── Button.test.tsx      # Colocated test file
+├── Modal/
+│   ├── Modal.tsx            # Named export: export const Modal = () => {...}
+│   └── Modal.test.tsx       # Colocated test file
+└── Header/
+    ├── Header.tsx           # Named export: export const Header = () => {...}
+    └── Header.test.tsx      # Colocated test file
+```
+
+### ❌ Avoid Flat Component Files:
+
+```
+components/
+├── Button.tsx               # DON'T DO THIS
+├── Modal.tsx                # Should be in folders instead
+└── Header.tsx               # Should be in folders instead
+```
+
+### Component Export Pattern:
+
+```typescript
+// components/Button/Button.tsx
+export const Button = ({ children, onClick }: ButtonProps) => {
+  return (
+    <button onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+// Usage in other files
+import { Button } from '@/components/Button/Button';
 ```
 
 ## Database Integration
@@ -177,8 +226,9 @@ lib/
 │   ├── client.ts
 │   └── client.test.ts     # Colocated with client.ts
 components/
-├── Button.tsx
-└── Button.test.tsx        # Colocated with Button.tsx
+├── Button/
+│   ├── Button.tsx         # Named export component
+│   └── Button.test.tsx    # Colocated test file
 ```
 
 ### ❌ Avoid **tests** Directories:
@@ -246,5 +296,7 @@ The integrated Sanity blog provides:
 8. Test connectivity with `/api/test-prisma` endpoint
 9. **CRITICAL**: Use `filename.test.ts` naming - NEVER `__tests__/` directories
 10. **CRITICAL**: Always colocate test files with source files they test
-11. **BLOG**: Blog routes are at `/blog/*` - posts, categories, and authors
-12. **BLOG**: Use GROQ queries from `@/lib/sanity/queries` for data fetching
+11. **CRITICAL**: Use folder-based component organization (`/MyComponent/MyComponent.tsx`) with named exports
+12. **CRITICAL**: Always use named exports for components, never default exports
+13. **BLOG**: Blog routes are at `/blog/*` - posts, categories, and authors
+14. **BLOG**: Use GROQ queries from `@/lib/sanity/queries` for data fetching
