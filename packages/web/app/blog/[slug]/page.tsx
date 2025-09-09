@@ -1,7 +1,7 @@
-import { Layout } from '@/components/Layout';
-import { BlogPostContent } from '@/components/blog/BlogPostContent';
-import { BlogPostHeader } from '@/components/blog/BlogPostHeader';
-import { RelatedPosts } from '@/components/blog/RelatedPosts';
+import { Layout } from '@/components/Layout/Layout';
+import { BlogPostContent } from '@/components/blog/BlogPostContent/BlogPostContent';
+import { BlogPostHeader } from '@/components/blog/BlogPostHeader/BlogPostHeader';
+import { RelatedPosts } from '@/components/blog/RelatedPosts/RelatedPosts';
 import { client, urlFor } from '@/lib/sanity';
 import {
   postPathsQuery,

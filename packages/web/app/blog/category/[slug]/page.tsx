@@ -1,6 +1,6 @@
-import { Layout } from '@/components/Layout';
-import { BlogCard } from '@/components/blog/BlogCard';
-import { BlogPagination } from '@/components/blog/BlogPagination';
+import { Layout } from '@/components/Layout/Layout';
+import { BlogCard } from '@/components/blog/BlogCard/BlogCard';
+import { BlogPagination } from '@/components/blog/BlogPagination/BlogPagination';
 import { client } from '@/lib/sanity';
 import {
   categoriesQuery,

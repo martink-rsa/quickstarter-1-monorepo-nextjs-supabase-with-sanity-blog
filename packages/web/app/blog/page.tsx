@@ -1,7 +1,7 @@
-import { Layout } from '@/components/Layout';
-import { BlogCard } from '@/components/blog/BlogCard';
-import { BlogPagination } from '@/components/blog/BlogPagination';
-import { FeaturedPosts } from '@/components/blog/FeaturedPosts';
+import { Layout } from '@/components/Layout/Layout';
+import { BlogCard } from '@/components/blog/BlogCard/BlogCard';
+import { BlogPagination } from '@/components/blog/BlogPagination/BlogPagination';
+import { FeaturedPosts } from '@/components/blog/FeaturedPosts/FeaturedPosts';
 import { client } from '@/lib/sanity';
 import {
   featuredPostsQuery,

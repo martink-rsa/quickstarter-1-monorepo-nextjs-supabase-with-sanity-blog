@@ -1,29 +1,29 @@
-import type { Metadata } from 'next'
-import { ThemeProvider } from 'next-themes'
-import { Geist } from 'next/font/google'
+import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
+import { Geist } from 'next/font/google';
 
-import './globals.css'
+import './globals.css';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
+  : 'http://localhost:3010';
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Next.js and Supabase Starter Kit',
-  description: 'The fastest way to build apps with Next.js and Supabase',
-}
+  title: 'Quickstarter 1: Next.js, Supabase, Sanity',
+  description: 'Quickstart your application with this monorepo',
+};
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
   display: 'swap',
   subsets: ['latin'],
-})
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -38,5 +38,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
