@@ -2,6 +2,7 @@ import { urlFor } from '@/lib/sanity';
 import type { BlogPostPreview } from '@/lib/sanity/types';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface BlogCardProps {
@@ -26,12 +27,14 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
               featured ? 'h-64 md:h-80' : 'h-48'
             )}
           >
-            <img
+            <Image
               src={urlFor(post.mainImage)
                 .width(featured ? 800 : 400)
                 .height(featured ? 320 : 200)
                 .url()}
               alt={post.mainImage.alt || post.title}
+              width={featured ? 800 : 400}
+              height={featured ? 320 : 200}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             {post.featured && (
@@ -95,9 +98,11 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               {post.author?.image ? (
-                <img
+                <Image
                   src={urlFor(post.author.image).width(24).height(24).url()}
                   alt={post.author.name}
+                  width={24}
+                  height={24}
                   className="w-6 h-6 rounded-full"
                 />
               ) : (

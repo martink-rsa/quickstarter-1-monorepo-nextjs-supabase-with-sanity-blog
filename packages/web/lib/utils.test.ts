@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
 import { capitalize } from '@/lib/utils';
+import { describe, expect, it } from 'vitest';
 
 describe('utils', () => {
   describe('capitalize', () => {

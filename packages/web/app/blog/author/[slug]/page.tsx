@@ -10,6 +10,7 @@ import {
 import type { Author, BlogPostPreview } from '@/lib/sanity/types';
 import { Metadata } from 'next';
 import { PortableText } from 'next-sanity';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 interface AuthorPageProps {
@@ -86,9 +87,11 @@ export default async function AuthorPage({
           <div className="flex items-start gap-6 mb-6">
             {author.image && (
               <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0">
-                <img
+                <Image
                   src={urlFor(author.image).width(96).height(96).url()}
                   alt={author.image.alt || author.name}
+                  width={96}
+                  height={96}
                   className="w-full h-full object-cover"
                 />
               </div>

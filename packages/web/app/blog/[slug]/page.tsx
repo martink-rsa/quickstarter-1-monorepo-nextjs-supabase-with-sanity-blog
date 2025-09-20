@@ -78,19 +78,13 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const [post, relatedPosts] = await Promise.all([
-    client.fetch<BlogPost>(postQuery, { slug }),
-    client.fetch<BlogPostPreview[]>(relatedPostsQuery, {
-      postId: '',
-      slug,
-    }),
-  ]);
+  const post = await client.fetch<BlogPost>(postQuery, { slug });
 
   if (!post) {
     notFound();
   }
 
-  // Update related posts query with actual post ID
+  // Fetch related posts with actual post ID
   const actualRelatedPosts = await client.fetch<BlogPostPreview[]>(
     relatedPostsQuery,
     {

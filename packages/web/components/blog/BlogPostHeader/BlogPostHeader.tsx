@@ -1,6 +1,7 @@
 import { urlFor } from '@/lib/sanity';
 import type { BlogPost } from '@/lib/sanity/types';
 import { format } from 'date-fns';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface BlogPostHeaderProps {
@@ -43,9 +44,11 @@ export function BlogPostHeader({ post }: BlogPostHeaderProps) {
       <div className="flex items-center justify-between border-b pb-8 mb-8">
         <div className="flex items-center gap-4">
           {post.author?.image ? (
-            <img
+            <Image
               src={urlFor(post.author.image).width(64).height(64).url()}
               alt={post.author.name}
+              width={64}
+              height={64}
               className="w-16 h-16 rounded-full"
             />
           ) : (
@@ -103,9 +106,11 @@ export function BlogPostHeader({ post }: BlogPostHeaderProps) {
       {/* Featured Image */}
       {post.mainImage && (
         <div className="mb-12 rounded-lg overflow-hidden">
-          <img
+          <Image
             src={urlFor(post.mainImage).width(1200).height(600).url()}
             alt={post.mainImage.alt || post.title}
+            width={1200}
+            height={600}
             className="w-full h-auto"
           />
           {post.mainImage.alt && (

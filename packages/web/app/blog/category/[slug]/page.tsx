@@ -3,7 +3,6 @@ import { BlogCard } from '@/components/blog/BlogCard/BlogCard';
 import { BlogPagination } from '@/components/blog/BlogPagination/BlogPagination';
 import { client } from '@/lib/sanity';
 import {
-  categoriesQuery,
   categoryQuery,
   postsByCategoryCountQuery,
   postsByCategoryQuery,
